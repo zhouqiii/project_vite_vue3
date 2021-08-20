@@ -1,0 +1,70 @@
+vue 3.0 + vite搭建vue项目起步
+1.全局安装create-vite-app：npm i -g create-vite-app
+2.创建项目目录：create-vite-app 项目名称(create-vite-app project-vite)
+(1&2步可以合并一步npm init vite-app 项目名称 >> npm init vite-app hello-vue3)
+3.运行：cd project-vite >> npm install >> npm run dev
+4.router安装；npm install vue-router@next -D(npm install vue-router --save不支持vue3写法)，配置如@/router/index.js
+
+vue文档重看笔记：
+1.computed不止有getter还可以设置setter
+2.dom里可以绑定表达式
+3.v-on或者v-bind可以绑定[showWhich],例如:[showWhich]=true,showWhich定义在data里可修改
+4.watch应用场所:当需要在数据变化时执行异步操作或者开销较大的操作时使用watch很合适,比如答题系统当答案改变是需要即时的发送请求，点击获取验证码随着按钮背景颜色改变绑定的这一数据的变化需要发送验证码请求。
+5.$attrs作用：当父组件传入子组件的数据子组件不需要使用，就不需要子组件使用props接收，那么父组件传入的数据可以被子组件使用$attrs传入内部组件即孙子组件，孙子组件依然使用props接收使用，所以在组件嵌套时方便使用
+6.:style直接绑定到一个样式对象更好更直观
+7.v-if是可以绑在template上的，template是模板内容不是实dom，由于v-show是必选渲染dom多以v-show在template上不起作用，v-for也可以在template上使用
+8.input绑定的v-model最好使用v-model.trim来删除收尾的空格符
+
+vue3相对vue2的改变：
+1.<template v-for></template>要求key绑在template上，而vue2建议key绑在内部dom上
+2.vue3在v-if和v-for同时使用上v-if的优先级比较高
+3.v-bind排序敏感：vue2在v-bind="{id:'thisId'}"和直接定义属性id='thatId'时会被渲染成id='thatId',但vue3按照定义顺序，
+  <span id='thatId' v-bind="{id:'thisId'}">会被渲染成<span id='thisIda'>
+4.v-for中的ref不再注册ref数组,而是将ref绑定到一个函数中，传入一个element，在函数中灵活处理
+5.异步引入的组件，vue2可以直接使用，vue3需要引入defineAsyncComponent,使用defineAsyncComponent显示声明异步组件，且异步组件内部的component属性在vue3中更换为loader
+6.vue3使用$attrs传递的属性包括style和class,而vue2不支持style和class属性的传递
+7.vue3废弃了$children,$children本来的作用是父组件获取子组件的data，变量等的作用，这个可以由$refs替代，所以在vue3中不在使用$children,统一由$refs替代
+8.vue3新增了v-is用来在普通的html元素上渲染组件，且v-is绑定的值是组建的名字，所以应该是一个字符串v-is=" 'child' "
+9.vue2的data options支持对象式声明和函数式声明，但vue3只支持函数式声明;当组件的data与mixin混入的data或extends扩展的data合并时，vue2是深拷贝，比较data的每个属性并比较属性内部元素，而vue3只是浅拷贝，只比较到data的属性级
+10.vue3新增emits组件选项,所有通过$emit触发的事件，都需要在emits里声明一下,这样做的原因是没有在emits里声明的间自动填加到$attrs里，那么$attrs绑定到的根组件可能再次触发
+11.vue3移除了filters组件选项,可以使用method或者computed来实现;当需要使用全局过滤器时，vue3提供了globalProperties.$filters,在main.js里用CreateApp(App).config.globalProperties.$filters={
+  moneyFilter(){
+    return ..
+  }
+}
+这种形式定义过滤函数，并通过this.$filters.moneyFilter(params)这种形式使用
+12.在vue2中,组件不支持多根节点，而vue3支持多根节点，多根节点的组件要求显示声明$attrs应该分布在哪里，如果不声明$attrs,运行时会报错，如果是单根节点，则与vue2相同，默认根继承$attrs,单根节点也可以在内部声明某个节点单独继承$attrs
+13.函数式组件:在vue2中,函数式组件<template functional></template>用functional，但vue3将functional属性在template中移除，且在组件引用中将props替换成$props，将attrs替换成$attrs;
+  在vue2函数式组件中，绑定的v-on='listener' 在vue3中listener在$attrs中传递所以不在需要listener
+14.常用的全局api迁移：new Vue()变成了新增的createApp,
+  import {createApp} from 'vue'
+  const app=createApp(App)
+  app.use(..)//Vue.use()
+  app.config.globalProperties(..)//Vue.prototype
+  app.component(..)//Vue.component()
+像其他的Vue全局api是通过export导出的，在使用的时候需要手动引入，如上面提到的异步组件的defineAsyncComponent，还有nextTick：
+  import {nextTick, defineAsyncComponent} from 'vue
+使用：nextTick(() => {})
+(这样的作用是，只有手动引入了打包的时候才会引入这个全局api，没有引入的那么打包的时候就不会被打包，避免了在vue2中的所有全局api统一都打包，冗余;但是是要和打包工具配合使用开启全局API的tree shaking功能的，否则还是像vue2一样全局api是全局打包的)
+15.vue3不在使用inline-template,inline-template出现在子组件标签上的作用是将子组件标签内部的html作为模板渲染而不是将子组件的内容分发，这样可以使模板更加灵活，vue3废弃了这种用法，如果有这种需求可以使用slot插槽来实现
+16.vue3废弃使用keyCodes，在vue2中有@keyup.enter='submit'等价于@keyup.13='submit'即按键别名和自定义的按键代码即keyCodes是一一对应的，但vue3不提倡按键代码因为web最新规范不在支持KeyboardEvent.keyCodes,为了保持一致，vue3不在存在
+  Vue.config.keyCodes = {
+    f1:112
+  }
+  这种全局定义，只支持别名写法即@keyup.f1='handler()'
+17.$listeners在vue2中用于向内部组件传入监听器<child v-on='$listeners'> 但现在vue3中$listeners监听器已经在$attrs传入，不再需要$listeners
+18.render函数：在vue2中render函数接收的渲染函数h(createElement)是自动引入的，但是在vue3中h需要全局手动引入import { h } from 'vue',且不需要在render中作为参数传入了
+  render(h) {
+    return h('div')
+  }
+19.transition class过渡类的变化：
+  vue2: v-enter v-enter-active v-enter-to v-leave v-leave-active v-leave-to
+  vue3: v-enter-from v-enter-active v-enter-to v-leave-from v-leave-active v-leave-to 
+20.transition-group在vue2中需要使用tag属性来标注用什么标签包裹,如果没有tag表明，默认使用span包裹，但是vue3如果没有tag表明，则不添加任何dom element
+  <transition tag='div'>
+    <div>111</div>
+    ...
+  </transition>
+21.vue2在v-on上绑定原生事件使用.native是为了在组件的根元素上直接监听原生事件，但是vue3已经在组件里将使用$emit触发给父组件的事件在emits里声明，所以不会再出现引用子组件时事件触发混乱的情况，所以不再需要.native
+22.watch监听在vue2中，监听Object的话，添加deep:true可以捕捉到对象每个属性发生变化，但是数组的话除了更换数组的值像push这种增删改查watch是捕捉不到的，在vue3中添加deep属性，数组的增删改查数据改变也可以捕捉到
+23.在组件上使用v-model的变化，vue3允许使用多个v-model
