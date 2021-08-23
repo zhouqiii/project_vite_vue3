@@ -7,16 +7,17 @@
     style="border:1px solid red"
     @getName="getEmits"
   />
+  <div class="home"></div>
 </template>
 
 <script>
-import { defineAsyncComponent, nextTick } from 'vue'
+import { defineAsyncComponent, defineComponent, nextTick } from 'vue'
 
 const HelloWorld = defineAsyncComponent({
   loader: () => import('../components/HelloWorld.vue')
 })
 
-export default {
+export default defineComponent({
   name: 'Home',
   components: {
     HelloWorld
@@ -36,5 +37,12 @@ export default {
           console.log(11)
       })
   }
-}
+})
 </script>
+<style lang="less" scoped>
+.home{
+  height: 100px;
+  width: 100px;
+  // background-color:@color
+}
+</style>

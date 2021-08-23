@@ -1,9 +1,8 @@
 vue 3.0 + vite搭建vue项目起步
-1.全局安装create-vite-app：npm i -g create-vite-app
-2.创建项目目录：create-vite-app 项目名称(create-vite-app project-vite)
-(1&2步可以合并一步npm init vite-app 项目名称 >> npm init vite-app hello-vue3)
+1.vite安装npm init @vitejs/app
 3.运行：cd project-vite >> npm install >> npm run dev
 4.router安装；npm install vue-router@next -D(npm install vue-router --save不支持vue3写法)，配置如@/router/index.js
+5.vuex安装：npm install vuex@next --save (vuex安装到起码4.0.0以上才支持v3)
 
 vue文档重看笔记：
 1.computed不止有getter还可以设置setter
@@ -68,3 +67,5 @@ vue3相对vue2的改变：
 21.vue2在v-on上绑定原生事件使用.native是为了在组件的根元素上直接监听原生事件，但是vue3已经在组件里将使用$emit触发给父组件的事件在emits里声明，所以不会再出现引用子组件时事件触发混乱的情况，所以不再需要.native
 22.watch监听在vue2中，监听Object的话，添加deep:true可以捕捉到对象每个属性发生变化，但是数组的话除了更换数组的值像push这种增删改查watch是捕捉不到的，在vue3中添加deep属性，数组的增删改查数据改变也可以捕捉到
 23.在组件上使用v-model的变化，vue3允许使用多个v-model
+24.setup()的典型作用是把业务相关的代码放在同一个位置来写
+25.provide和inject成对出现，可以向所有子孙组件提供数据以及提供修改数据的方法，子孙组件用inject使用数据。
