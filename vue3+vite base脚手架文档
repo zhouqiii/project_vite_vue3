@@ -1,8 +1,11 @@
-vue 3.0 + vite搭建vue项目起步
+vue3.0 + vite2.0搭建vue项目起步
 1.vite安装npm init @vitejs/app
 3.运行：cd project-vite >> npm install >> npm run dev
 4.router安装；npm install vue-router@next -D(npm install vue-router --save不支持vue3写法)，配置如@/router/index.js
 5.vuex安装：npm install vuex@next --save (vuex安装到起码4.0.0以上才支持v3)
+6.less安装:npm i less-loader less --save-dev 注意安装完成后要在package.json里看，less和less-devDependencies里才可以,然后安装npm i style-resources-loader --save-dev 在安装npm i vue-cli-plugin-style-resources-loader完成之后，按照之前less文档整理的第三种方式即可全局引入less全局配置文件
+7.安装vant:npm i vant@next -S然后按需引入在vite.config.js配置vant,vant官方v3配置方式:https://vant-contrib.gitee.io/vant/v3/#/zh-CN/quickstart
+8.安装postcss-rem将px转成rem:npm install postcss-pxtorem -D 按照之前的postcss-rem文档来操作为html根元素设置16px
 
 vue文档重看笔记：
 1.computed不止有getter还可以设置setter
@@ -12,7 +15,15 @@ vue文档重看笔记：
 5.$attrs作用：当父组件传入子组件的数据子组件不需要使用，就不需要子组件使用props接收，那么父组件传入的数据可以被子组件使用$attrs传入内部组件即孙子组件，孙子组件依然使用props接收使用，所以在组件嵌套时方便使用
 6.:style直接绑定到一个样式对象更好更直观
 7.v-if是可以绑在template上的，template是模板内容不是实dom，由于v-show是必选渲染dom多以v-show在template上不起作用，v-for也可以在template上使用
-8.input绑定的v-model最好使用v-model.trim来删除收尾的空格符
+8.input绑定的v-model最好使用v-model.trim来删除首尾的空格符
+9.Mixin用法：
+  作用是分发组件中可复用的功能，mixins分为局部混入和全局混入;
+  应用场景例如一个弹框和提示框组件，都要ifShow来决定是否显示，都有一个this.ifShow=！this.ifShow方法来控制，那么这个data和method就可以写在mixin混入对象中，被这两个组件使用mixins混入
+  mixins:[pardonUse] pardonUse作为混入对象，是minxin定义的主体，其格式与vue实例的格式是一致的;
+  mixins对象在组件中被应用时，混入对象的钩子先于组件本身的钩子触发;
+  注意mixin和vuex的区别:
+    vuex中的数据和方法都是共享的，可以读取更改互相影响;
+    mixin中的数据不共享，每个组件中的mixin实例单独存在，互不影响
 
 vue3相对vue2的改变：
 1.<template v-for></template>要求key绑在template上，而vue2建议key绑在内部dom上

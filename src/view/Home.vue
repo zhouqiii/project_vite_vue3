@@ -8,6 +8,7 @@
     @getName="getEmits"
   />
   <div class="home"></div>
+  <van-button color="#7232dd">单色按钮</van-button>
 </template>
 
 <script>
@@ -43,6 +44,6 @@ export default defineComponent({
 .home{
   height: 100px;
   width: 100px;
-  // background-color:@color
+  background: @color;
 }
 </style>

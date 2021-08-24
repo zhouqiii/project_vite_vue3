@@ -1,35 +1,42 @@
 
-import { defineConfig } from "vite";
-import { resolve } from "path";
 import vue from '@vitejs/plugin-vue';
+import styleImport from 'vite-plugin-style-import';
 
-function pathResolve(dir) {
-  return resolve(__dirname, ".", dir);
-}
+const path = require('path')
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins:[vue()],
-    resolve: {
-        alias: {
-          "/@/": pathResolve("src"),
-        }
-    },
+module.exports = {
+    plugins:[
+      vue(),
+      styleImport({//配置vant按需引入，这是和babel单独配置的作用一样的
+        libs: [
+          {
+            libraryName: 'vant',
+            esModule: true,
+            resolveStyle: (name) => `vant/es/${name}/style`,
+          },
+        ],
+      }),
+    ],
+    css: { // 引入less全局样式文件
+      preprocessorOptions: {
+       less: {
+           modifyVars: {
+            hack: `true;@import (reference) "${path.resolve('src/assets/style/variable.less')}";`
+           },
+           javascriptEnabled: true
+         }
+       }
+     },
     build: {
       outDir: 'dist',
-
     },
     base: './',
-    // css: {
-    //   preprocessorOptions: {
-    //    less: {
-    //        modifyVars: {
-    //         hack: `true;@import (reference) "${pathResolve('src/assets/style/variable.less')}";`
-    //        },
-    //        javascriptEnabled: true
-    //      }
-    //    }
-    //  },
-
+    //不知道为啥没起作用
+    // resolve: {
+    //     alias: {
+    //       '/@/': pathResolve('./src')
+    //     }
+    // },
     // server: {
     //     cors: true,
     //     open: true,
@@ -41,4 +48,4 @@ export default defineConfig({
     //       }
     //     }
     // }
-});
+};
