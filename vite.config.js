@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import styleImport from 'vite-plugin-style-import';
 
 const path = require('path')
+
 // https://vitejs.dev/config/
 module.exports = {
     plugins:[
@@ -16,6 +17,7 @@ module.exports = {
           },
         ],
       }),
+      
     ],
     css: { // 引入less全局样式文件
       preprocessorOptions: {

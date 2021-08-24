@@ -1,4 +1,5 @@
 <template>
+  <s-header></s-header>
   <img alt="Vue logo" src="../assets/logo.png" />
   <HelloWorld 
     msg="Hello Vue 3.0 + Vite" 
@@ -44,6 +45,6 @@ export default defineComponent({
 .home{
   height: 100px;
   width: 100px;
-  background: @color;
+  background: @Cred;
 }
 </style>

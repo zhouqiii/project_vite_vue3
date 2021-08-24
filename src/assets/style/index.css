@@ -1,0 +1,47 @@
+/* 适配刘海*/
+@media screen and (orientation: portrait) {
+  /* 竖屏 */
+  /* 防止页面被刘海遮住 */
+  .navbar{
+      padding-top: constant(safe-area-inset-top);
+      padding-top: env(safe-area-inset-top);
+  }
+}
+/* 适配底部条*/
+@media screen and (orientation: landscape) {
+  /* 横屏 */
+  .bottom_bar{
+      /* IOS 11支持*/
+      padding-right: constant(safe-area-inset-right);
+      padding-left: constant(safe-area-inset-left);
+      padding-bottom: constant(safe-area-inset-bottom);/* //为底下圆弧的高度 34px  */
+      /*IOS 11.2版本版本支持*/
+      padding-right: env(safe-area-inset-right);
+      padding-left: env(safe-area-inset-left);
+      padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+/* css reset */
+html,
+body {
+  background: #f9fafc;
+  font-family: PingFang-SC-Heavy, PingFangSC-Regular, PingFang SC;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: none;
+  -webkit-overflow-scrolling: touch;
+  text-align: center;
+  color: #333333;
+}
+::-webkit-scrollbar {
+  width: 0;
+  background-color: transparent;
+}
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+div,
+p {
+  box-sizing: border-box;
+}

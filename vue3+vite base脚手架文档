@@ -6,6 +6,7 @@ vue3.0 + vite2.0搭建vue项目起步
 6.less安装:npm i less-loader less --save-dev 注意安装完成后要在package.json里看，less和less-devDependencies里才可以,然后安装npm i style-resources-loader --save-dev 在安装npm i vue-cli-plugin-style-resources-loader完成之后，按照之前less文档整理的第三种方式即可全局引入less全局配置文件
 7.安装vant:npm i vant@next -S然后按需引入在vite.config.js配置vant,vant官方v3配置方式:https://vant-contrib.gitee.io/vant/v3/#/zh-CN/quickstart
 8.安装postcss-rem将px转成rem:npm install postcss-pxtorem -D 按照之前的postcss-rem文档来操作为html根元素设置16px
+9.设置normal.css和css reset,媒体查询对header适配全面屏
 
 vue文档重看笔记：
 1.computed不止有getter还可以设置setter
