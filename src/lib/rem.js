@@ -1,4 +1,4 @@
-const baseSize = 32
+const baseSize = 64
 
 function setRem() {
     const width = document.documentElement.clientWidth || document.body.clientWidth

@@ -1,5 +1,13 @@
 <template>
-  <s-header></s-header>
+  <s-header path="2" @rightCallBack="rightFunc">
+    <template v-slot:header-right>
+      <img
+        alt="share"
+        src="../assets/icons/share.png"
+        class="header_right"
+      />
+    </template>
+  </s-header>
   <img alt="Vue logo" src="../assets/logo.png" />
   <HelloWorld 
     msg="Hello Vue 3.0 + Vite" 
@@ -9,15 +17,18 @@
     @getName="getEmits"
   />
   <div class="home"></div>
-  <van-button color="#7232dd">单色按钮</van-button>
+  <van-button color="#7232dd" @click="hideLoading">单色按钮</van-button>
 </template>
 
 <script>
 import { defineAsyncComponent, defineComponent, nextTick } from 'vue'
+import install from '../utils/createDom'
+import Loading from "../components/Loading.vue";
 
 const HelloWorld = defineAsyncComponent({
   loader: () => import('../components/HelloWorld.vue')
 })
+let ld = null
 
 export default defineComponent({
   name: 'Home',
@@ -32,6 +43,18 @@ export default defineComponent({
   methods: {
     getEmits(val) {
       alert(val)
+    },
+    rightFunc() {
+      ld = install(Loading);
+      setTimeout(() => {
+        const e = document.getElementsByClassName('custom-root');
+        document.body.removeChild(e[0]);
+        ld = null
+        console.log(ld)
+      },5000)
+    },
+    hideLoading() {
+      ld = null
     }
   },
   mounted() {
@@ -46,5 +69,9 @@ export default defineComponent({
   height: 100px;
   width: 100px;
   background: @Cred;
+}
+.header_right {
+  width: 22px;
+  height: 22px;
 }
 </style>

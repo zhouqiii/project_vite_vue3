@@ -7,6 +7,7 @@
       @click-right="onClickRight"
     >
       <template #left>
+        <div class="left_back"></div>
         <slot name="header-left"></slot>
       </template>
       <template #right>
@@ -24,20 +25,22 @@ export default {
       type: String,
       default: '首页'
     },
-    type: {
+    path: {
       type: String,
       default: '1'
     }
   },
   emits: ['rightCallBack'],
-  setup(props,cxt) {
+  setup(props, cxt) {
     const router = useRouter()
     const onClickLeft = () => {
-      if(!props.type) {
+      if ( props.path === '1' ) {
         router.go(-1)
+      } else if ( props.path === '2' ) {
+        console.log('这可能需要与客户端交互返回')
       }
-      else{
-        console.log('这可能需要与客户端交互')
+      else {
+        router.push({ path: props.path })
       }
     }
     const onClickRight = () => {
@@ -50,3 +53,13 @@ export default {
   },
 }
 </script>
+<style lang="less" scoped>
+.left_back {
+  width: 22px;
+  height: 22px;
+  .bg-image('icon_back');
+  display: inline-block;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+}
+</style>
