@@ -1,7 +1,7 @@
 
 import vue from '@vitejs/plugin-vue';
 import styleImport from 'vite-plugin-style-import';
-
+import { svgBuilder } from './src/icons/index'; 
 const path = require('path')
 
 // https://vitejs.dev/config/
@@ -17,7 +17,7 @@ module.exports = {
           },
         ],
       }),
-      
+      svgBuilder('./src/icons/svg/') // 这里已经将src/icons/svg/下的svg全部导入，无需再单独导入
     ],
     css: { // 引入less全局样式文件
       preprocessorOptions: {
@@ -33,21 +33,13 @@ module.exports = {
       outDir: 'dist',
     },
     base: './',
-    //不知道为啥没起作用
-    // resolve: {
-    //     alias: {
-    //       '/@/': pathResolve('./src')
-    //     }
-    // },
-    // server: {
-    //     cors: true,
-    //     open: true,
-    //     proxy: {
-    //       '/api': {
-    //           target: 'http://192.168.99.223:3000',   //代理接口
-    //           changeOrigin: true,
-    //           rewrite: (path) => path.replace(/^\/api/, '')
-    //       }
-    //     }
-    // }
+    devServer: {
+      proxy: {
+        '/AppPrj4': {
+          target: 'https://www.alex188.cn/AppPrj4',
+          changeOrigin: true,
+          ws: true,
+        }
+      },
+    }
 };

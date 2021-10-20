@@ -3,11 +3,22 @@ vue3.0 + vite2.0搭建vue项目起步
 3.运行：cd project-vite >> npm install >> npm run dev
 4.router安装；npm install vue-router@next -D(npm install vue-router --save不支持vue3写法)，配置如@/router/index.js
 5.vuex安装：npm install vuex@next --save (vuex安装到起码4.0.0以上才支持v3)
-6.less安装:npm i less-loader less --save-dev 注意安装完成后要在package.json里看，less和less-devDependencies里才可以,然后安装npm i style-resources-loader --save-dev 在安装npm i vue-cli-plugin-style-resources-loader完成之后，按照之前less文档整理的第三种方式即可全局引入less全局配置文件
+6.less安装:npm i less-loader less --save-dev 注意安装完成后要在package.json里看，less和less-dev在Dependencies里才可以,然后安装npm i style-resources-loader --save-dev 在安装npm i vue-cli-plugin-style-resources-loader完成之后，按照之前less文档整理的第三种方式即可全局引入less全局配置文件
 7.安装vant:npm i vant@next -S然后按需引入在vite.config.js配置vant,vant官方v3配置方式:https://vant-contrib.gitee.io/vant/v3/#/zh-CN/quickstart
 8.安装postcss-rem将px转成rem:npm install postcss-pxtorem -D 按照之前的postcss-rem文档来操作为html根元素设置16px
 9.设置normal.css和css reset,媒体查询对header适配全面屏
-
+10.svg全局配置：
+  (1)目录结构是.src/icons/(svg文件夹+index.js) svg文件夹下面存放svg文件，index.js是svg的配置 
+  (2) 安装svg-sprite-loader配置 npm install svg-sprite-loader -D
+  (3)写svg组件模板即本项目./component/SvgIcon.vue 
+  (4)在main.js里全局注册SvgICon组件：app.component('svg-icon',SvgIcon) 
+  (5)写svg配置即./src/icons/index.js:需要安装fs即npm intsall fs index.js配置内容如本项目文件
+  (6)在vite.config.js修改配置：
+    import { svgBuilder } from './src/icons/index'; 
+    export default defineConfig({
+      plugins: [svgBuilder('./src/icons/svg/')]
+    })
+  vue文件里使用：<svg-icon iconClass="wx"></svg-icon>至此svg配置完成
 vue文档重看笔记：
 1.computed不止有getter还可以设置setter
 2.dom里可以绑定表达式
@@ -54,7 +65,7 @@ vue3相对vue2的改变：
   app.config.globalProperties(..)//Vue.prototype
   app.component(..)//Vue.component()
 像其他的Vue全局api是通过export导出的，在使用的时候需要手动引入，如上面提到的异步组件的defineAsyncComponent，还有nextTick：
-  import {nextTick, defineAsyncComponent} from 'vue
+  import {nextTick, defineAsyncComponent} from 'vue'
 使用：nextTick(() => {})
 (这样的作用是，只有手动引入了打包的时候才会引入这个全局api，没有引入的那么打包的时候就不会被打包，避免了在vue2中的所有全局api统一都打包，冗余;但是是要和打包工具配合使用开启全局API的tree shaking功能的，否则还是像vue2一样全局api是全局打包的)
 15.vue3不在使用inline-template,inline-template出现在子组件标签上的作用是将子组件标签内部的html作为模板渲染而不是将子组件的内容分发，这样可以使模板更加灵活，vue3废弃了这种用法，如果有这种需求可以使用slot插槽来实现

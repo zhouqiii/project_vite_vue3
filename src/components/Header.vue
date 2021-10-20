@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <van-nav-bar 
-      :title="title"
-      safe-area-inset-top
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    >
-      <template #left>
-        <div class="left_back"></div>
-        <slot name="header-left"></slot>
-      </template>
-      <template #right>
-        <slot name="header-right"></slot>
-      </template>
-    </van-nav-bar>
+  <div class="navbar">
+    <div class="navbar_show">
+      <van-nav-bar 
+        :title="title"
+        safe-area-inset-top
+        @click-left="onClickLeft"
+        @click-right="onClickRight"
+      >
+        <template #left>
+          <div class="left_back"></div>
+          <slot name="header-left"></slot>
+        </template>
+        <template #right>
+          <slot name="header-right"></slot>
+        </template>
+      </van-nav-bar>
+    </div>
+    <div class="navbar_blank"></div>
   </div>
 </template>
 <script>
@@ -54,12 +57,23 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.left_back {
-  width: 22px;
-  height: 22px;
-  .bg-image('icon_back');
-  display: inline-block;
-  background-size: 22px 22px;
-  background-repeat: no-repeat;
+.navbar{
+  .navbar_show{
+    width: 100%;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    .left_back {
+      width: 22px;
+      height: 22px;
+      .bg-image('icon_back');
+      display: inline-block;
+      background-size: 22px 22px;
+      background-repeat: no-repeat;
+    }
+  }
+  .navbar_blank{
+    height: 46px;;
+  }
 }
 </style>

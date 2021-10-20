@@ -17,13 +17,16 @@
     @getName="getEmits"
   />
   <div class="home"></div>
-  <van-button color="#7232dd" @click="hideLoading">单色按钮</van-button>
+  <van-button type="primary" @click="rightFunc">测试loading</van-button>
+  <van-button color="#7232dd" @click="testAxios">测试封装axios</van-button>
+  <svg-icon iconClass="wx"></svg-icon>
 </template>
 
 <script>
-import { defineAsyncComponent, defineComponent, nextTick } from 'vue'
-import install from '../utils/createDom'
+import { defineAsyncComponent, defineComponent, nextTick } from 'vue';
+import { install, unInstall } from '../utils/createDom';
 import Loading from "../components/Loading.vue";
+import { getInfo } from '../api/test'
 
 const HelloWorld = defineAsyncComponent({
   loader: () => import('../components/HelloWorld.vue')
@@ -47,14 +50,15 @@ export default defineComponent({
     rightFunc() {
       ld = install(Loading);
       setTimeout(() => {
-        const e = document.getElementsByClassName('custom-root');
-        document.body.removeChild(e[0]);
-        ld = null
-        console.log(ld)
+        ld = unInstall(ld)
       },5000)
     },
-    hideLoading() {
-      ld = null
+    testAxios() {
+      getInfo()
+        .then((res) => {
+          console.log(res)
+        })
+        
     }
   },
   mounted() {

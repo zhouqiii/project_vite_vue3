@@ -6,6 +6,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "axios": "^0.21.4",
+    "fs": "0.0.1-security",
     "vant": "^3.2.1",
     "vue": "^3.0.5",
     "vuex": "^4.0.2"
@@ -17,7 +19,7 @@
     "less-loader": "^10.0.1",
     "postcss-pxtorem": "^6.0.0",
     "style-resources-loader": "^1.4.1",
-    "svg-sprite-loader": "^6.0.9",
+    "svg-sprite-loader": "^6.0.10",
     "vite": "^2.4.4",
     "vite-plugin-style-import": "^1.2.1",
     "vue-cli-plugin-style-resources-loader": "^0.1.5",

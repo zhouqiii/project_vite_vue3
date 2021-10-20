@@ -1,7 +1,9 @@
 <template>
     <div class="loading">
         <div class="loading_bg">
-            <img src="../assets/icons/icon_loading.png" alt="" class="loading_img" />
+            <div class="loading_box">
+                <img src="../assets/icons/icon_loading.png" alt="" class="loading_img" />
+            </div>
         </div>
     </div>
 </template>
@@ -23,17 +25,26 @@ export default {
     .loading_bg{
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,.1);
         display:flex;
         justify-content: center;
+        //  background: rgba(0,0,0,.1);
         align-items: center;
-        img.loading_img{
-            width: 40px;
-            height: 40px;
+        .loading_box{
+          width: 36px;
+          height: 36px;
+          border-radius: 2px;
+          background: rgba(0,0,0,.1);
+          display: flex;
+          align-items: center;
+          img.loading_img{
+            width: 18px;
+            height: 18px;
+            margin: auto;
             -webkit-animation: loading 2s steps(9,end) infinite;
             -moz-animation: loading 2s steps(9,end) infinite;
             -o-animation: loading 2s steps(9,end) infinite;
             animation: loading 2s steps(9,end) infinite;
+          }
         }
     }
 }
